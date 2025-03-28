@@ -1,0 +1,364 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.read-the-docs {
+  color: #888;
+}
+.menu-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.quantity{
+  color: blueviolet;
+  font-size: 0.7rem;
+  font-weight: bold;
+
+}
+.addNew {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  padding: 0.5rem 1rem;
+  z-index: 2;
+}
+.editModal,
+.addNewModal {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  /* padding: 2rem; */
+  border-radius: 10px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  margin: 50px;
+}
+.modalHeader{
+  display: flex; flex-direction:row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: blueviolet;
+  color: white;
+  padding: 1rem;
+}
+.editModal form,
+.addNewModal form {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  padding: 2rem;
+  text-align: left;
+  color: blueviolet;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.starRatingContainer {
+  font-size: 1rem;
+  text-align: center;
+}
+.showList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1rem;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px sold blueviolet;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  font-size: larger;
+  font-weight: bold;
+  color: blueviolet;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.3rem;
+}
+.SeasonContainer,
+.EpisodeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1rem;
+  gap: 1rem;
+}
+.seasonButtons,
+.episodeButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.bPlus,
+.bMinus {
+  font-size: 1.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.bPlus,
+.bMinus,
+.addNew,
+.bottomButtons:hover,
+.editModal select:focus,
+.editModal input:focus,
+.addNewModal select:focus,
+.addNewModal input:focus,
+.submit {
+  background-color: blueviolet;
+  color: white;
+}
+.editModal select,
+.editModal input,
+.addNewModal select,
+.addNewModal input,
+.submit,
+.submit:hover {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+}
+.editModal label,
+.addNewModal label{
+  padding: 0rem 0.5rem;
+}
+
+.bPlus:hover,
+.bMinus:hover,
+.addNew:hover,
+.bottomButtons,
+.addNewModal select,
+.addNewModal input,
+.editModal select,
+.editModal input,
+.submit:hover {
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
+  background-color: white;
+  color: blueviolet;
+}
+
+.bPlus,
+.bMinus,
+.bPlus:hover,
+.bMinus:hover {
+  width: 30px;
+  font-size: 1.5rem;
+}
+.close{
+  color: blueviolet;
+  font-weight: bold;
+  padding: 5px;
+}
+.formES{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.formES input{
+  width: 50px;
+}
+.tooltip-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+}
+/* Tooltip styling */
+.tooltip-text {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  text-align: center;
+  /* padding: 5px 10px; */
+  border-radius: 5px;
+  position: absolute;
+  bottom: 150%; /* Position above button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* Arrow pointing down */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.tooltip-btn:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+.buttons-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+  #root {
+    padding: 10px;
+  }
+  .addNew {
+    font-size: 12px;
+    padding: 0.5rem;
+    margin: 1rem;
+    bottom: 1rem;
+    top: auto;
+  }
+  section.showList {
+    flex-direction: column;
+  }
+  .menu-container {
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .title {
+    font-size: 1.1rem;
+  }
+  .cardContainer {
+    padding: 0.7rem;
+    margin: 0.5rem 0.1rem;
+    width: 80%;
+  }
+  .card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    height: 100%;
+    padding: 0.2rem;
+    margin: 0.2rem;
+    /* gap: 0.2rem; */
+    width: 100%;
+  }
+  .completedIcon {
+    margin: 0.5rem;
+    font-size: 1rem;
+  }
+  .bPlus,
+  .bMinus {
+    font-size: 0.5rem;
+  }
+  .ratingButton {
+    margin: 2px;
+    padding: 1px 3px;
+  }
+  .ratingSpan {
+    font-size: 0.5rem;
+  }
+
+  .starButton {
+    margin: 5px;
+    font-size: 12px;
+    padding: 5px 15px;
+  }
+  .bottomButtons {
+    margin: 5px;
+    padding: 5px;
+  }
+  .editModal,
+  .addNewModal {
+    margin: auto;
+    border: 10px solid blueviolet;
+  }
+  .modalHeader{
+    padding: 0 2rem;
+  }
+  .editModal form,
+  .addNewModal form {
+    margin: 0.4rem;
+    padding: 0.4rem 2rem;
+    font-size: 12px;
+  }
+  .SeasonContainer,
+  .EpisodeContainer {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+  }
+  .seasonButtons, .episodeButtons{
+    gap: 0.1rem;
+  }
+  .starRatingContainer {
+    font-size: 0.5rem;
+  }
+  .bPlus,
+  .bMinus,
+  .bPlus:hover,
+  .bMinus:hover {
+    margin: 1px;
+    padding: 1px;
+    font-size: 1rem;
+    width: 20px;
+    border-radius: 5px;
+  }
+  .tooltip-btn{
+    font-size: 1rem;
+  }
+
+}
