@@ -226,6 +226,7 @@ export const ShowListProvider = ({ children }) => {
         decreaseSeason,
         increaseEpisode,
         decreaseEpisode,
+        saveMyData,
       }}
     >
       {children}

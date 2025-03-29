@@ -95,15 +95,10 @@ export default function ShowsList() {
               ))}
             </select>
             <section className="quantity">
-              {listLoading ? (
-                <p>Loading... </p>
-              ) : (
-                showList?.length
-              )}
+              {listLoading ? <p>Loading... </p> : showList?.length}
             </section>
           </section>
-<button onClick={saveAllData}
->save all Data</button>
+          <button onClick={saveAllData}>save all Data</button>
           <section className="showList">
             {listLoading ? (
               <p>Loading... </p>
