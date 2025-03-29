@@ -14,7 +14,7 @@ export default function ShowsList() {
     yearsList,
     year,
     setYear,
-    saveAllData,
+    saveMyData,
   } = useShowList();
 
   const [toViewSelect, setToViewSelect] = useState(
@@ -98,7 +98,7 @@ export default function ShowsList() {
               {listLoading ? <p>Loading... </p> : showList?.length}
             </section>
           </section>
-          <button onClick={saveAllData}>save all Data</button>
+          <button onClick={saveMyData}>save all Data</button>
           <section className="showList">
             {listLoading ? (
               <p>Loading... </p>
