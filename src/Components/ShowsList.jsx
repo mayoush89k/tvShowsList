@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useShowList } from "../context/ShowListContext";
 import ShowItemCard from "./ShowItemCard";
 import "./Menu.css";
+import AddShow from "./AddShow";
 
 export default function ShowsList() {
   const {
@@ -44,7 +45,7 @@ export default function ShowsList() {
       ) : (
         <section>
           <section className="menu-container">
-            {/* <AddShow /> */}
+            <AddShow />
             <input
               className="search"
               type="text"
@@ -106,7 +107,7 @@ export default function ShowsList() {
               <h1 className="">No shows found</h1>
             ) : (
               showList.map((item) => (
-                <ShowItemCard item={item} key={item._id} />
+                <ShowItemCard item={item} key={item.id || item._id} />
               ))
             )}
           </section>

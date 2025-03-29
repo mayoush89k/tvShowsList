@@ -14,8 +14,21 @@ export const openDB = () => {
     request.onerror = (event) => reject(event.target.error);
   });
 };
+export const getItemByName = async (name) => {
+    const db = await openDB();
+    return new Promise((resolve) => {
+      const transaction = db.transaction(STORE_NAME, "readonly");
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.getAll();
 
+    request.onsuccess = () => resolve(request.result.find(item => name == item.name));
+    request.onerror = () => reject("Error fetching name");
+  });
+};
 export const addItem = async (item) => {
+  if (!item.id) {
+    item.id = item._id || Date.now().toString();
+  }
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, "readwrite");
   const store = transaction.objectStore(STORE_NAME);
@@ -30,8 +43,8 @@ export const deleteItem = async (item) => {
 };
 
 export const editItem = async (item) => {
-    console.log(item);
-    
+  console.log(item);
+
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, "readwrite");
   const store = transaction.objectStore(STORE_NAME);
@@ -52,4 +65,22 @@ export const getAllItems = async () => {
 
     request.onsuccess = () => resolve(request.result);
   });
+};
+
+export const clearStore = async () => {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, "readwrite");
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.clear();
+
+    request.onsuccess = () => resolve("Store cleared.");
+    request.onerror = () => reject("Error clearing store.");
+  });
+};
+
+export const saveNewData = async (data) => {
+  await clearStore();
+  await data.forEach(async (item) => await addItem({ ...item, id: item._id }));
+  //   getAllItems();
 };

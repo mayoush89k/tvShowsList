@@ -1,5 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { editItem, getAllItems, openDB } from "./IndexedDB";
+import {
+  addItem,
+  editItem,
+  getAllItems,
+  getItemByName,
+  openDB,
+  saveNewData,
+} from "./IndexedDB";
 
 export const ShowListContext = createContext();
 
@@ -13,28 +20,30 @@ export const ShowListProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [yearsList, setYearsList] = useState([]);
   const [year, setYear] = useState(
-    localStorage.getItem("filterYear") ? localStorage.getItem("filterYear") : ""
+    localStorage.getItem("filterYear")
+      ? localStorage.getItem("filterYear")
+      : "AllYears"
   );
-
+  const [filterYear, setFilterYear] = useState(0);
   const [toView, setToView] = useState(
     localStorage.getItem("toView") ? localStorage.getItem("toView") : "All"
   );
+  const [newShowLoading, setNewShowLoading] = useState(false);
+  const [newShowError, setNewShowError] = useState("");
 
   useEffect(() => {
     setLoading(true);
     openDB().then(loadItems);
-    filterYears();
-    console.log(yearsList);
-
     setTimeout(() => {
       setLoading(false);
     }, 1500);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("year", year);
+    filterYears();
+    setFilterYear(localStorage.setItem("filterYear", year));
     loadItems();
-  }, [year]);
+  }, [toView, year]);
 
   const loadItems = () => {
     toViewList();
@@ -59,6 +68,7 @@ export const ShowListProvider = ({ children }) => {
         break;
 
       default:
+        getAll();
         break;
     }
     setTimeout(() => {
@@ -71,17 +81,25 @@ export const ShowListProvider = ({ children }) => {
     setListLoading(true);
     const storedItems = await getAllItems();
     setShowList(
-      year ? storedItems.filter((item) => item.year == year) : storedItems
+      year > 0
+        ? storedItems
+            .filter((item) => item.year == year)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        : storedItems.sort((a, b) => a.name.localeCompare(b.name))
     );
   };
 
-  // get all Completed items and also check if the year has been selected
+  // get all Completed items and also check if the year = ""has been selected
   const getCompleted = async () => {
     setListLoading(true);
     const storedItems = await getAllItems();
     const completedItems = storedItems.filter((item) => item.isCompleted);
     setShowList(
-      year ? completedItems.filter((item) => item.year == year) : completedItems
+      year > 0
+        ? completedItems
+            .filter((item) => item.year == year)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        : completedItems.sort((a, b) => a.name.localeCompare(b.name))
     );
   };
 
@@ -91,9 +109,11 @@ export const ShowListProvider = ({ children }) => {
     const storedItems = await getAllItems();
     const inCompleteItems = storedItems.filter((item) => !item.isCompleted);
     setShowList(
-      year
-        ? inCompleteItems.filter((item) => item.year == year)
-        : inCompleteItems
+      year > 0
+        ? inCompleteItems
+            .filter((item) => item.year == year)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        : inCompleteItems.sort((a, b) => a.name.localeCompare(b.name))
     );
   };
 
@@ -105,7 +125,11 @@ export const ShowListProvider = ({ children }) => {
       (item) => item.episode == 0 && !item.isCompleted
     );
     setShowList(
-      year ? toWatchItems.filter((item) => item.year == year) : toWatchItems
+      year > 0
+        ? toWatchItems
+            .filter((item) => item.year == year)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        : toWatchItems.sort((a, b) => a.name.localeCompare(b.name))
     );
   };
 
@@ -117,9 +141,11 @@ export const ShowListProvider = ({ children }) => {
       (item) => item.episode > 0 && !item.isCompleted
     );
     setShowList(
-      year
-        ? inProgressItems.filter((item) => item.year == year)
-        : inProgressItems
+      year > 0
+        ? inProgressItems
+            .filter((item) => item.year == year)
+            .sort((a, b) => a.name.localeCompare(b.name))
+        : inProgressItems.sort((a, b) => a.name.localeCompare(b.name))
     );
   };
 
@@ -194,13 +220,27 @@ export const ShowListProvider = ({ children }) => {
 
   const saveMyData = async () => {
     try {
-      const response = await fetch("http://10.0.0.12:3434/shows");
+      setListLoading(true);
+      const response = await fetch("https://tvtracker.onrender.com/shows/");
       const data = await response.json();
-      console.log(data);
-      setShowList(data);
+      await saveNewData(data);
       loadItems();
+      setListLoading(false);
     } catch (error) {
       setError(error);
+    }
+  };
+
+  const addNewShowList = async (item) => {
+    // setNewShowLoading(true);
+    const getItem = await getItemByName(item.name);
+    if (getItem) {
+      setNewShowError(item.name + " ia Already Exist");
+    } else {
+      setNewShowLoading(true);
+      await addItem(item);
+      loadItems();
+      setNewShowLoading(false);
     }
   };
 
@@ -212,6 +252,9 @@ export const ShowListProvider = ({ children }) => {
         error,
         setError,
         listLoading,
+        newShowLoading,
+        newShowError,
+        setNewShowError,
         setToView,
         loadItems,
         filterYears,
@@ -227,6 +270,7 @@ export const ShowListProvider = ({ children }) => {
         increaseEpisode,
         decreaseEpisode,
         saveMyData,
+        addNewShowList,
       }}
     >
       {children}
