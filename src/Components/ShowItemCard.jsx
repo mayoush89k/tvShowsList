@@ -2,10 +2,18 @@ import React, { useEffect, useState } from "react";
 import EditingShow from "./EditingShow";
 import { useShowList } from "../context/ShowListContext";
 
-function ShowItemCard({ item, handleDelete }) {
+function ShowItemCard({ item }) {
   const [error, setError] = useState("");
   const [isOpenEditModel, setIsOpenEditModel] = useState(false);
-  const {updateIsComplete, increaseSeason, decreaseSeason, increaseEpisode, decreaseEpisode, reWatchShow } = useShowList();
+  const {
+    updateIsComplete,
+    increaseSeason,
+    decreaseSeason,
+    increaseEpisode,
+    decreaseEpisode,
+    reWatchShow,
+    deleteAShow,
+  } = useShowList();
 
   // make the tooltip buttons index behind the modal i have to save them here
   const tooltipButtons = document.querySelectorAll(".tooltip-btn");
@@ -18,9 +26,9 @@ function ShowItemCard({ item, handleDelete }) {
 
   useEffect(() => {
     setTimeout(() => {
-      setError("")
+      setError("");
     }, 1500);
-  }, [error])
+  }, [error]);
 
   return (
     <section className="cardContainer">
@@ -115,7 +123,7 @@ function ShowItemCard({ item, handleDelete }) {
         <button
           className="tooltip-btn"
           onClick={() => {
-            handleDelete(item.id);
+            deleteAShow(item);
           }}
         >
           🗑️

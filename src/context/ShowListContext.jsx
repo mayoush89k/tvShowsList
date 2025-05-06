@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   addItem,
+  deleteItem,
   editItem,
   getAllItems,
   getItemByName,
   openDB,
   saveNewData,
+  uploadingData,
+  fetchingLoadMyData
 } from "./IndexedDB";
 
 export const ShowListContext = createContext();
@@ -31,6 +34,9 @@ export const ShowListProvider = ({ children }) => {
   const [newShowLoading, setNewShowLoading] = useState(false);
   const [newShowError, setNewShowError] = useState("");
 
+  // username methods
+  const [username, setUsername] = useState("");
+
   useEffect(() => {
     setLoading(true);
     openDB().then(loadItems);
@@ -49,6 +55,11 @@ export const ShowListProvider = ({ children }) => {
     toViewList();
   };
 
+  const stopLoading = () => {
+    setTimeout(() => {
+      setListLoading(false);
+    }, 1500);
+  };
   const toViewList = () => {
     switch (toView) {
       case "All":
@@ -72,7 +83,7 @@ export const ShowListProvider = ({ children }) => {
         break;
     }
     setTimeout(() => {
-      setListLoading(false);
+      stopLoading();
     }, 1500);
   };
 
@@ -225,7 +236,18 @@ export const ShowListProvider = ({ children }) => {
       const data = await response.json();
       await saveNewData(data);
       loadItems();
-      setListLoading(false);
+      stopLoading();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const loadMyData = async () => {
+    try {
+      setListLoading(true);
+      await fetchingLoadMyData(username, showList);
+      loadItems();
+      stopLoading();
     } catch (error) {
       setError(error);
     }
@@ -239,11 +261,23 @@ export const ShowListProvider = ({ children }) => {
     } else {
       setNewShowLoading(true);
       await addItem(item);
-      loadItems();
-      setNewShowLoading(false);
+      setTimeout(async () => {
+        if (await getItemByName(item.name)) {
+          loadItems();
+          setNewShowLoading(false);
+        } else {
+          setNewShowError("Something Went Wrong");
+        }
+      }, 2000);
     }
   };
 
+  const deleteAShow = async (item) => {
+    setListLoading(true);
+    await deleteItem(item);
+    loadItems();
+    stopLoading();
+  };
   return (
     <ShowListContext.Provider
       value={{
@@ -271,6 +305,10 @@ export const ShowListProvider = ({ children }) => {
         decreaseEpisode,
         saveMyData,
         addNewShowList,
+        deleteAShow,
+        loadMyData,
+        username,
+        setUsername,
       }}
     >
       {children}

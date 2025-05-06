@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useShowList } from "../context/ShowListContext";
+import Spinner from "./Spinner";
 
 function AddShow() {
   const [newShowItem, setNewShowItem] = useState({ episode: 1, season: 1 });
@@ -50,7 +51,7 @@ function AddShow() {
       {isModalOpen && (
         <section className="addNewModal">
           {newShowLoading ? (
-            <p>Loading...</p>
+            <Spinner size="Big" title="Adding New Show"/>
           ) : newShowError ? (
             <h4>{newShowError}</h4>
           ) : (

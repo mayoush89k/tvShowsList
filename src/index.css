@@ -66,3 +66,11 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+@media (prefers-color-scheme: dark) {
+  .filters {
+    background-color: #242424 !important;
+  }
+  .search{
+    background-color: #242424 !important;
+  }
+}

@@ -15,13 +15,14 @@ export const openDB = () => {
   });
 };
 export const getItemByName = async (name) => {
-    const db = await openDB();
-    return new Promise((resolve) => {
-      const transaction = db.transaction(STORE_NAME, "readonly");
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.getAll();
+  const db = await openDB();
+  return new Promise((resolve) => {
+    const transaction = db.transaction(STORE_NAME, "readonly");
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.getAll();
 
-    request.onsuccess = () => resolve(request.result.find(item => name == item.name));
+    request.onsuccess = () =>
+      resolve(request.result.find((item) => name == item.name));
     request.onerror = () => reject("Error fetching name");
   });
 };
@@ -84,3 +85,57 @@ export const saveNewData = async (data) => {
   await data.forEach(async (item) => await addItem({ ...item, id: item._id }));
   //   getAllItems();
 };
+
+export const uploadingData = async (data) => {
+  const currAllData = await getAllItems();
+  currAllData.forEach(async(item) =>
+    data.find((d) => d.name == item.name) ? await fetchUpdate(item) : await fetchAdd(item)
+  );
+};
+
+const fetchUpdate = async (item) => {
+  try {
+    const response = await fetch(`https://tvtracker.onrender.com/shows/${item._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating item:", error);
+  }
+};
+
+const fetchAdd = async (item) => {
+  try {
+    const response = await fetch(`http://localhost:27017/shows/${item._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding item:", error);
+  }
+};
+
+
+export const fetchingLoadMyData = async (username, list) => {
+  try {
+    const response = await fetch(`http://localhost:3434/:${username}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(list),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error loading items:", error);
+    
+  }
+}

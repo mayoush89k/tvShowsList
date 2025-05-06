@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useShowList } from "../context/ShowListContext";
+import Spinner from "./Spinner";
 
 function EditingShow({ item, setIsOpenEditModel }) {
   const [editedItem, setEditedItem] = useState(item);
@@ -16,7 +17,7 @@ function EditingShow({ item, setIsOpenEditModel }) {
   return (
     <section className="editModal">
       {editLoading ? (
-        <p>Loading...</p>
+        <Spinner size="Big" title={`Updating ${item.name}`} />
       ) : (
         <section>
           <section className="modalHeader">

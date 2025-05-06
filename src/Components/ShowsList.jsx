@@ -3,6 +3,7 @@ import { useShowList } from "../context/ShowListContext";
 import ShowItemCard from "./ShowItemCard";
 import "./Menu.css";
 import AddShow from "./AddShow";
+import Spinner from "./Spinner";
 
 export default function ShowsList() {
   const {
@@ -16,6 +17,9 @@ export default function ShowsList() {
     year,
     setYear,
     saveMyData,
+    loadMyData,
+    username,
+    setUsername,
   } = useShowList();
 
   const [toViewSelect, setToViewSelect] = useState(
@@ -39,7 +43,7 @@ export default function ShowsList() {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <Spinner size="Big" title="Page" />
       ) : error ? (
         <p>Error.. </p>
       ) : (
@@ -96,13 +100,24 @@ export default function ShowsList() {
               ))}
             </select>
             <section className="quantity">
-              {listLoading ? <p>Loading... </p> : showList?.length}
+              {listLoading ? (
+                <Spinner size="Small" title="Quantity" />
+              ) : (
+                showList?.length
+              )}
             </section>
           </section>
-          <button onClick={saveMyData}>save all Data</button>
+          {/* <button onClick={saveMyData}>save all Data</button> */}
+          {/* <button onClick={loadMyData}>Load My Data</button>
+          <input
+            type="string"
+            placeholder="username: "
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          /> */}
           <section className="showList">
             {listLoading ? (
-              <p>Loading... </p>
+              <Spinner size="Big" title="Shows List" />
             ) : showList?.length == 0 ? (
               <h1 className="">No shows found</h1>
             ) : (
