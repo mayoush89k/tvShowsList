@@ -8,7 +8,7 @@ import {
   openDB,
   saveNewData,
   uploadingData,
-  fetchingLoadMyData
+  fetchingLoadMyData,
 } from "./IndexedDB";
 
 export const ShowListContext = createContext();
@@ -201,7 +201,9 @@ export const ShowListProvider = ({ children }) => {
       item.name.toLowerCase().includes(text.toLowerCase())
     );
     setShowList(filteredList);
-    loadItems();
+    console.log(filteredList);
+    setListLoading(false)
+    // loadItems();
   };
 
   // Increasing Season
