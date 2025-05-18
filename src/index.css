@@ -67,10 +67,11 @@ button:focus-visible {
   }
   #watched {
     background-color: #d7c4e9;
+    opacity: 70%;
   }
   #toWatch {
-    background-color: #eee4f7;
     opacity: 70%;
+    background-color: #eee4f7;
   }
   #inProgress {
     background-color: #eee4f7;
@@ -86,6 +87,7 @@ button:focus-visible {
   }
   #watched {
     background-color: #3a353d;
+    opacity: 70%;
   }
   #inProgress{
     background-color: #242424;
