@@ -36,18 +36,17 @@
 .read-the-docs {
   color: #888;
 }
-.menu-container{
+.menu-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
-.quantity{
+.quantity {
   color: blueviolet;
   font-size: 0.7rem;
   font-weight: bold;
-
 }
 .addNew {
   position: fixed;
@@ -68,8 +67,9 @@
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   margin: 50px;
 }
-.modalHeader{
-  display: flex; flex-direction:row;
+.modalHeader {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background-color: blueviolet;
@@ -166,7 +166,7 @@
   margin: 0.5rem;
 }
 .editModal label,
-.addNewModal label{
+.addNewModal label {
   padding: 0rem 0.5rem;
 }
 
@@ -191,18 +191,18 @@
   width: 30px;
   font-size: 1.5rem;
 }
-.close{
+.close {
   color: blueviolet;
   font-weight: bold;
   padding: 5px;
 }
-.formES{
+.formES {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-.formES input{
+.formES input {
   width: 50px;
 }
 .tooltip-btn {
@@ -254,6 +254,18 @@
   justify-content: space-between;
 }
 
+#watched {
+  background-color: #d7c4e9;
+}
+#toWatch {
+  background-color: #eee4f7;
+  opacity: 70%;
+}
+#inProgress {
+  background-color: #eee4f7;
+  opacity: 100%;
+}
+
 @media screen and (max-width: 600px) {
   #root {
     padding: 10px;
@@ -267,12 +279,16 @@
   }
   section.showList {
     flex-direction: column;
+    gap: 0.5rem;
   }
   .menu-container {
     margin-top: 10px;
     justify-content: center;
     align-items: center;
     gap: 0.2rem;
+  }
+  .cardHeader {
+    flex: 1 0 40%;
   }
   .title {
     font-size: 1.1rem;
@@ -281,6 +297,9 @@
     padding: 0.7rem;
     margin: 0.5rem 0.1rem;
     width: 80%;
+    flex-direction: row;
+    gap: 0.1rem;
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0);
   }
   .card {
     flex-direction: row;
@@ -288,9 +307,7 @@
     align-items: center;
     font-size: 0.8rem;
     height: 100%;
-    padding: 0.2rem;
-    margin: 0.2rem;
-    /* gap: 0.2rem; */
+    gap: 0.1rem;
     width: 100%;
   }
   .completedIcon {
@@ -323,7 +340,7 @@
     margin: auto;
     border: 10px solid blueviolet;
   }
-  .modalHeader{
+  .modalHeader {
     padding: 0 2rem;
   }
   .editModal form,
@@ -341,7 +358,8 @@
     align-items: center;
     font-size: 0.7rem;
   }
-  .seasonButtons, .episodeButtons{
+  .seasonButtons,
+  .episodeButtons {
     gap: 0.1rem;
   }
   .starRatingContainer {
@@ -357,8 +375,11 @@
     width: 20px;
     border-radius: 5px;
   }
-  .tooltip-btn{
+  .tooltip-btn {
     font-size: 1rem;
   }
 
+  .buttons-container {
+    flex-direction: column;
+  }
 }

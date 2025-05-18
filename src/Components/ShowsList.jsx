@@ -20,6 +20,7 @@ export default function ShowsList() {
     loadMyData,
     username,
     setUsername,
+    ListBySearch,
   } = useShowList();
 
   const [toViewSelect, setToViewSelect] = useState(
@@ -40,6 +41,10 @@ export default function ShowsList() {
     loadItems();
   }, [toViewSelect, localStorage.getItem("toView")]);
 
+  const searchForShow = (e) => {
+    e.preventDefault();
+    ListBySearch(e.target.value);
+  };
   return (
     <div>
       {loading ? (
@@ -48,13 +53,13 @@ export default function ShowsList() {
         <p>Error.. </p>
       ) : (
         <section>
-          <section className="menu-container">
+          <section className="menu-container" >
             <AddShow />
             <input
               className="search"
               type="text"
               placeholder="Search"
-              // onChange={searchForShow}
+              onChange={searchForShow}
             />
             <select
               className="filters"
