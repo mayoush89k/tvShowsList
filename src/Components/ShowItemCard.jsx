@@ -31,15 +31,28 @@ function ShowItemCard({ item }) {
   }, [error]);
 
   return (
-    <section className="cardContainer">
+    <section
+      className="cardContainer"
+      id={
+        item.episode == 0
+          ? "toWatch"
+          : item.isCompleted
+          ? "watched"
+          : "inProgress"
+      }
+    >
       {isOpenEditModel && (
         <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
       )}
-      {/* Name */}
-      <div className="title">{item.name}</div>
-      {/* Year */}
-      {item.year > 0 ? <div className="title">{item.year}</div> : <div>-</div>}
-      <section className="card">
+      <div className="cardHeader">
+        {/* Name */}
+        <div className="title">{item.name}</div>
+        {/* Year */}
+        {item.year > 0 ? (
+          <div className="title">{item.year}</div>
+        ) : (
+          <div>-</div>
+        )}
         {/* Completed icon */}
         <div className="completedIcon">
           <span
@@ -53,6 +66,8 @@ function ShowItemCard({ item }) {
             {item.isCompleted ? "✔" : "✖"}
           </span>
         </div>
+      </div>
+      <section className="card">
         {/* Rating */}
         {/* 
         <div>
