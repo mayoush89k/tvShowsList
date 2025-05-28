@@ -209,7 +209,7 @@ export const ShowListProvider = ({ children }) => {
   // Increasing Season
   const increaseSeason = async (item) => {
     setListLoading(true);
-    await editItem({ ...item, season: item.season + 1 });
+    await editItem({ ...item, season: item.season + 1, episode: 1 });
     loadItems();
   };
   // Decreasing Season
