@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EditingShow from "./EditingShow";
 import { useShowList } from "../context/ShowListContext";
+import EditShow from "./EditShow";
 
 function ShowItemCard({ item }) {
   const [error, setError] = useState("");
@@ -19,9 +20,15 @@ function ShowItemCard({ item }) {
   const tooltipButtons = document.querySelectorAll(".tooltip-btn");
 
   useEffect(() => {
+    const cards = document.querySelector(".cardFull");
     isOpenEditModel
       ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1))
       : tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+      isOpenEditModel ? cards.style.display = "none" : cards.style.display = "block";
+      // console.log(cards)
+    // isOpenEditModel
+    //   ? cards.forEach((card) => (card.style.zIndex = -12))
+    //   : cards.forEach((card) => (card.style.zIndex = 0));
   }, [isOpenEditModel]);
 
   useEffect(() => {
@@ -32,7 +39,7 @@ function ShowItemCard({ item }) {
 
   return (
     <section
-      className="cardContainer"
+      className="cardContainer "
       id={
         item.episode == 0
           ? "toWatch"
@@ -42,10 +49,11 @@ function ShowItemCard({ item }) {
       }
     >
       {isOpenEditModel && (
-        <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
+        // <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
+        <EditShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
       )}
       {/* flex dir col */}
-      <div className="cardSplit">
+      <div className="cardSplit cardFull">
         <div className="title">{item.name}</div>
         <div className="card">
           {/* flex dir row */}

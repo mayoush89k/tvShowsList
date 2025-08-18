@@ -53,7 +53,6 @@
   right: 20px;
   top: 20px;
   padding: 0.5rem 1rem;
-  z-index: 2;
 }
 .editModal,
 .addNewModal {
@@ -66,6 +65,12 @@
   border-radius: 10px;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   margin: 50px;
+}
+/* .cardSplit {
+  z-index: 2; 
+} */
+.cardFull {
+  visibility: visible;
 }
 .modalHeader {
   display: flex;
@@ -107,19 +112,19 @@
   align-items: center;
   gap: 0.3rem;
   border: 1px sold blueviolet;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0);
   font-size: larger;
   font-weight: bold;
   color: blueviolet;
+  max-width: 10rem;
 }
 .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   gap: 0.3rem;
 }
 .SeasonContainer,
@@ -205,6 +210,25 @@
 .formES input {
   width: 50px;
 }
+.editContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+#editSeason,
+#editEpisode {
+  width: 2rem;
+}
+#editName {
+  width: 10rem;
+}
+#editYear,
+#editRating {
+  width: 3rem;
+}
 .tooltip-btn {
   position: relative;
   border: none;
@@ -248,6 +272,49 @@
   opacity: 1;
   transform: translateX(-50%) translateY(-5px);
 }
+
+#editName,
+#editYear,
+#editSeason,
+#editEpisode,
+#editRating {
+  color: blueviolet;
+  font-size: 1rem;
+  padding: 5px;
+  border: 2px solid rgb(187, 143, 227);
+  outline: none;
+  border-radius: 10px;
+}
+
+#editName::placeholder,
+#editYear::placeholder,
+#editSeason::placeholder,
+#editEpisode::placeholder,
+#editRating::placeholder {
+  color: rgb(187, 143, 227);
+  font-weight: bold;
+}
+#editName:focus,
+#editYear:focus,
+#editSeason:focus,
+#editEpisode:focus,
+#editRating:focus {
+  border: 2px solid blueviolet !important;
+  border-radius: 10px;
+  outline: none;
+}
+#editName:focus::placeholder,
+#editYear:focus::placeholder,
+#editSeason:focus::placeholder,
+#editEpisode:focus::placeholder,
+#editRating:focus::placeholder {
+  color: blueviolet;
+}
+
+.editSeasonContainer,
+.editEpisodeContainer,
+.ratingContainer,
+.yearContainer,
 .buttons-container {
   display: flex;
   width: 100%;
@@ -292,7 +359,8 @@
     align-items: center;
     padding: 0.7rem;
     margin: 0.5rem 0.1rem;
-    width: 90%;
+    width: 95% !important;
+    max-width: 20rem !important;
     gap: 0.1rem;
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0);
   }
@@ -378,5 +446,9 @@
   .buttons-container {
     flex-direction: column;
     width: auto;
+  }
+  .editContainer{
+    width: 90% !important;
+    max-width: 20rem !important;
   }
 }
