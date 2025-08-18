@@ -202,7 +202,7 @@ export const ShowListProvider = ({ children }) => {
     );
     setShowList(filteredList);
     console.log(filteredList);
-    setListLoading(false)
+    setListLoading(false);
     // loadItems();
   };
 

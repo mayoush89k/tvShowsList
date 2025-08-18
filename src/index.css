@@ -53,7 +53,6 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -67,35 +66,22 @@ button:focus-visible {
   }
   #watched {
     background-color: #d7c4e9;
-    opacity: 70%;
   }
-  #toWatch {
-    opacity: 70%;
-    background-color: #eee4f7;
-  }
+  .filters,
+  .search,
+  #toWatch,
   #inProgress {
     background-color: #eee4f7;
-    opacity: 100%;
   }
 }
 @media (prefers-color-scheme: dark) {
-  .filters {
-    background-color: #242424 !important;
-  }
-  .search{
-    background-color: #242424 !important;
-  }
   #watched {
     background-color: #3a353d;
-    opacity: 70%;
   }
-  #inProgress{
-    background-color: #242424;
-    opacity: 100%;
+  .filters,
+  .search,
+  #toWatch,
+  #inProgress {
+    background-color: #242424 !important;
   }
-  #toWatch {
-    background-color: #242424;
-    opacity: 70%;
-  }
-  
 }

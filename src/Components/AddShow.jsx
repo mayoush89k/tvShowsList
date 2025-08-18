@@ -13,13 +13,15 @@ function AddShow() {
   // make the tooltip buttons index behind the modal i have to save them here
   const tooltipButtons = document.querySelectorAll(".tooltip-btn");
 
+  const cards = document.querySelectorAll(".cardContainer");
+
   const saveHandle = (e) => {
     e.preventDefault();
     if (newShowItem.name == "") {
       setNewShowError("Insert Show Name");
     } else {
       addNewShowList(newShowItem);
-      setNewShowError(newShowItem.name + " has been added Successfully")
+      setNewShowError(newShowItem.name + " has been added Successfully");
     }
 
     setTimeout(() => {
@@ -32,9 +34,13 @@ function AddShow() {
   }, []);
 
   useEffect(() => {
-    isModalOpen
-      ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1))
-      : tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+    if (isModalOpen) {
+      tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1));
+      cards.forEach((card) => (card.style.zIndex = -1));
+    } else {
+      tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
+      cards.forEach((card) => (card.style.zIndex = 1));
+    }
   }, [isModalOpen]);
 
   return (
@@ -51,7 +57,7 @@ function AddShow() {
       {isModalOpen && (
         <section className="addNewModal">
           {newShowLoading ? (
-            <Spinner size="Big" title="Adding New Show"/>
+            <Spinner size="Big" title="Adding New Show" />
           ) : newShowError ? (
             <h4>{newShowError}</h4>
           ) : (
