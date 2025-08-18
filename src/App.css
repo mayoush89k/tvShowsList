@@ -54,6 +54,12 @@
   top: 20px;
   padding: 0.5rem 1rem;
 }
+.addNewError{
+  padding: 1rem;
+}
+.addNewModal h4 {
+  padding: 1rem;
+}
 .editModal,
 .addNewModal {
   position: fixed;

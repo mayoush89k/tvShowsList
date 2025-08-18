@@ -259,18 +259,16 @@ export const ShowListProvider = ({ children }) => {
     // setNewShowLoading(true);
     const getItem = await getItemByName(item.name);
     if (getItem) {
-      setNewShowError(item.name + " ia Already Exist");
+      setNewShowError(item.name + " is Already Exist");
     } else {
       setNewShowLoading(true);
       await addItem(item);
-      setTimeout(async () => {
-        if (await getItemByName(item.name)) {
-          loadItems();
-          setNewShowLoading(false);
-        } else {
-          setNewShowError("Something Went Wrong");
-        }
-      }, 2000);
+      if (await getItemByName(item.name)) {
+        loadItems();
+      } else {
+        setNewShowError("Something Went Wrong TRY again later");
+      }
+      setNewShowLoading(false);
     }
   };
 
