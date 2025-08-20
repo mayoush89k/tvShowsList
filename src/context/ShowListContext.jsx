@@ -259,18 +259,16 @@ export const ShowListProvider = ({ children }) => {
     // setNewShowLoading(true);
     const getItem = await getItemByName(item.name);
     if (getItem) {
-      setNewShowError(item.name + " ia Already Exist");
+      setNewShowError(item.name + " is Already Exist");
     } else {
       setNewShowLoading(true);
       await addItem(item);
-      setTimeout(async () => {
-        if (await getItemByName(item.name)) {
-          loadItems();
-          setNewShowLoading(false);
-        } else {
-          setNewShowError("Something Went Wrong");
-        }
-      }, 2000);
+      if (await getItemByName(item.name)) {
+        loadItems();
+      } else {
+        setNewShowError("Something Went Wrong TRY again later");
+      }
+      setNewShowLoading(false);
     }
   };
 
@@ -280,6 +278,20 @@ export const ShowListProvider = ({ children }) => {
     loadItems();
     stopLoading();
   };
+
+  // fixing years field
+  const fixingYears = async () => {
+    const getAllList = await getAllItems();
+    console.log("getAllList: ", getAllList);
+
+    for (let index = 0; index < getAllList.length; index++) {
+      const element = getAllList[index];
+      console.log('element type: ', typeof(element.year));
+
+      element.year ? await editShowData({ ...element, year: Number(element.year) }) : await editShowData({ ...element, year: Number(0) });
+    }
+  };
+
   return (
     <ShowListContext.Provider
       value={{
@@ -311,6 +323,7 @@ export const ShowListProvider = ({ children }) => {
         loadMyData,
         username,
         setUsername,
+        fixingYears,
       }}
     >
       {children}

@@ -44,7 +44,7 @@ function AddShow() {
   }, [isModalOpen]);
 
   return (
-    <section className="addModel-container">
+    <section className="">
       <button
         className="addNew"
         onClick={() => {
@@ -61,7 +61,7 @@ function AddShow() {
           ) : newShowError ? (
             <h4>{newShowError}</h4>
           ) : (
-            <section>
+            <section className="addModel-container">
               <section className="modalHeader">
                 <h2>Add New TV Show </h2>
                 <button
@@ -83,7 +83,10 @@ function AddShow() {
                 <label>Year:</label>
                 <input
                   onChange={(e) =>
-                    setNewShowItem({ ...newShowItem, year: e.target.value })
+                    setNewShowItem({
+                      ...newShowItem,
+                      year: Number(e.target.value),
+                    })
                   }
                   type="number"
                   placeholder="Enter Year"
@@ -92,7 +95,10 @@ function AddShow() {
                   <label>Season:</label>
                   <input
                     onChange={(e) =>
-                      setNewShowItem({ ...newShowItem, season: e.target.value })
+                      setNewShowItem({
+                        ...newShowItem,
+                        season: Number(e.target.value),
+                      })
                     }
                     type="number"
                     placeholder="Enter Season"
@@ -103,7 +109,7 @@ function AddShow() {
                     onChange={(e) =>
                       setNewShowItem({
                         ...newShowItem,
-                        episode: e.target.value,
+                        episode: Number(e.target.value),
                       })
                     }
                     type="number"
@@ -123,7 +129,9 @@ function AddShow() {
                   <option value="4">4</option>
                   <option value="5">5</option>
                 </select>
-                {newShowError && <label>{newShowError}</label>}
+                <div className="addNewError">
+                  {newShowError && <label className="addNewError">{newShowError}</label>}
+                </div>
                 <button className="submit" onClick={saveHandle}>
                   Save
                 </button>

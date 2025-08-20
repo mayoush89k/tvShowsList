@@ -60,6 +60,7 @@ function ShowItemCard({ item }) {
           <div className="cardHeader">
             {/* header */}
             {/* flex d col */}
+            {typeof(item.year)}
             {item.year > 0 ? (
               <div className="title">{item.year}</div>
             ) : (
