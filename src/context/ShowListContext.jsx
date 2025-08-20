@@ -278,6 +278,20 @@ export const ShowListProvider = ({ children }) => {
     loadItems();
     stopLoading();
   };
+
+  // fixing years field
+  const fixingYears = async () => {
+    const getAllList = await getAllItems();
+    console.log("getAllList: ", getAllList);
+
+    for (let index = 0; index < getAllList.length; index++) {
+      const element = getAllList[index];
+      console.log('element type: ', typeof(element.year));
+
+      element.year ? await editShowData({ ...element, year: Number(element.year) }) : await editShowData({ ...element, year: Number(0) });
+    }
+  };
+
   return (
     <ShowListContext.Provider
       value={{
@@ -309,6 +323,7 @@ export const ShowListProvider = ({ children }) => {
         loadMyData,
         username,
         setUsername,
+        fixingYears,
       }}
     >
       {children}
