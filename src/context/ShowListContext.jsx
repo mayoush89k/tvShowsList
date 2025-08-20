@@ -51,6 +51,12 @@ export const ShowListProvider = ({ children }) => {
     loadItems();
   }, [toView, year]);
 
+  const resetSearchBarInput = () => {
+    // search bar input
+    const searchBarInput = document.getElementById("search");
+    console.log(searchBarInput);
+    searchBarInput.value = "";
+  };
   const loadItems = () => {
     toViewList();
   };
@@ -176,6 +182,7 @@ export const ShowListProvider = ({ children }) => {
   const editShowData = async (item) => {
     setEditLoading(true);
     await editItem(item);
+    resetSearchBarInput();
     loadItems();
   };
 
@@ -183,6 +190,8 @@ export const ShowListProvider = ({ children }) => {
   const updateIsComplete = async (item) => {
     setListLoading(true);
     await editItem({ ...item, isCompleted: !item.isCompleted });
+    resetSearchBarInput();
+
     loadItems();
   };
 
@@ -209,25 +218,30 @@ export const ShowListProvider = ({ children }) => {
   // Increasing Season
   const increaseSeason = async (item) => {
     setListLoading(true);
-    await editItem({ ...item, season: item.season + 1, episode: 1 });
+    await editItem({ ...item, season: item.season + 1 });
+    resetSearchBarInput();
+
     loadItems();
   };
   // Decreasing Season
   const decreaseSeason = async (item) => {
     setListLoading(true);
     await editItem({ ...item, season: item.season - 1 });
+    resetSearchBarInput();
     loadItems();
   };
   // Increasing Episode
   const increaseEpisode = async (item) => {
     setListLoading(true);
     await editItem({ ...item, episode: item.episode + 1 });
+    resetSearchBarInput();
     loadItems();
   };
   // Decreasing Episode
   const decreaseEpisode = async (item) => {
     setListLoading(true);
     await editItem({ ...item, episode: item.episode - 1 });
+    resetSearchBarInput();
     loadItems();
   };
 
@@ -279,19 +293,6 @@ export const ShowListProvider = ({ children }) => {
     stopLoading();
   };
 
-  // fixing years field
-  const fixingYears = async () => {
-    const getAllList = await getAllItems();
-    console.log("getAllList: ", getAllList);
-
-    for (let index = 0; index < getAllList.length; index++) {
-      const element = getAllList[index];
-      console.log('element type: ', typeof(element.year));
-
-      element.year ? await editShowData({ ...element, year: Number(element.year) }) : await editShowData({ ...element, year: Number(0) });
-    }
-  };
-
   return (
     <ShowListContext.Provider
       value={{
@@ -323,7 +324,6 @@ export const ShowListProvider = ({ children }) => {
         loadMyData,
         username,
         setUsername,
-        fixingYears,
       }}
     >
       {children}

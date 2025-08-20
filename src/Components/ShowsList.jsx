@@ -21,7 +21,6 @@ export default function ShowsList() {
     username,
     setUsername,
     ListBySearch,
-    fixingYears
   } = useShowList();
 
   const [toViewSelect, setToViewSelect] = useState(
@@ -54,9 +53,10 @@ export default function ShowsList() {
         <p>Error.. </p>
       ) : (
         <section>
-          <section className="menu-container" >
+          <section className="menu-container">
             <AddShow />
             <input
+              id="search"
               className="search"
               type="text"
               placeholder="Search"
@@ -112,7 +112,6 @@ export default function ShowsList() {
                 showList?.length
               )}
             </section>
-            <section className="filters"><button onClick={fixingYears}>fix Years</button></section>
           </section>
           {/* <button onClick={saveMyData}>save all Data</button> */}
           {/* <button onClick={loadMyData}>Load My Data</button>
