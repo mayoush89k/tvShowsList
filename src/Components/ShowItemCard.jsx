@@ -20,15 +20,9 @@ function ShowItemCard({ item }) {
   const tooltipButtons = document.querySelectorAll(".tooltip-btn");
 
   useEffect(() => {
-    const cards = document.querySelector(".cardFull");
     isOpenEditModel
       ? tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = -1))
       : tooltipButtons.forEach((tooltipB) => (tooltipB.style.zIndex = 1));
-      isOpenEditModel ? cards.style.display = "none" : cards.style.display = "block";
-      // console.log(cards)
-    // isOpenEditModel
-    //   ? cards.forEach((card) => (card.style.zIndex = -12))
-    //   : cards.forEach((card) => (card.style.zIndex = 0));
   }, [isOpenEditModel]);
 
   useEffect(() => {
@@ -52,14 +46,12 @@ function ShowItemCard({ item }) {
         // <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
         <EditShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
       )}
-      {/* flex dir col */}
-      <div className="cardSplit cardFull">
+      {!isOpenEditModel && (
+      <div className="cardSplit cardFull" id={`item${item.name}`}>
         <div className="title">{item.name}</div>
         <div className="card">
-          {/* flex dir row */}
           <div className="cardHeader">
             {/* header */}
-            {/* flex d col */}
             {item.year > 0 ? (
               <div className="title">{item.year}</div>
             ) : (
@@ -167,7 +159,7 @@ function ShowItemCard({ item }) {
             </button>
           </div>
         </div>
-      </div>
+      </div>)}
       {error && <h4>{error}</h4>}
     </section>
   );

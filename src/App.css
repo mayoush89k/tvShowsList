@@ -133,6 +133,12 @@
   align-items: center;
   gap: 0.3rem;
 }
+/* disable card full details and enable card edit
+.editContainer ~ .cardFull {
+  display: none;
+} */
+
+
 .SeasonContainer,
 .EpisodeContainer {
   display: flex;
