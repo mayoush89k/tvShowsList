@@ -220,6 +220,7 @@ export const ShowListProvider = ({ children }) => {
     setListLoading(true);
     await editItem({ ...item, season: item.season + 1 });
     resetSearchBarInput();
+
     loadItems();
   };
   // Decreasing Season
