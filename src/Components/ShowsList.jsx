@@ -53,9 +53,10 @@ export default function ShowsList() {
         <p>Error.. </p>
       ) : (
         <section>
-          <section className="menu-container" >
+          <section className="menu-container">
             <AddShow />
             <input
+              id="search"
               className="search"
               type="text"
               placeholder="Search"
