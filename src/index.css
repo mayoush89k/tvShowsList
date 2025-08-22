@@ -84,4 +84,7 @@ button:focus-visible {
   #inProgress {
     background-color: #242424 !important;
   }
+  .addNewModal h4 {
+    color: blueviolet;
+}
 }
