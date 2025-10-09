@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useShowList } from "../context/ShowListContext";
 
 export default function EditShow({ item, setIsOpenEditModel }) {
@@ -12,9 +12,21 @@ export default function EditShow({ item, setIsOpenEditModel }) {
     editShowData(editedItem);
     !error && setIsOpenEditModel(true);
     if (!error) {
-        setIsOpenEditModel(false);
+      setIsOpenEditModel(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        // e.preventDefault(); // stop form or default behavior
+        saveHandle(e);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editedItem]);
   return (
     <form className="editContainer">
       <button className="close" onClick={() => setIsOpenEditModel(false)}>
@@ -51,7 +63,7 @@ export default function EditShow({ item, setIsOpenEditModel }) {
           type="text"
           placeholder={editedItem.year}
           onChange={(e) =>
-            setEditedItem({ ...editedItem, name: e.target.value })
+            setEditedItem({ ...editedItem, year: e.target.value })
           }
         />
       </div>
@@ -77,6 +89,9 @@ export default function EditShow({ item, setIsOpenEditModel }) {
           id="editEpisode"
           type="number"
           placeholder={editedItem.episode}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSave();
+          }}
           onChange={(e) => {
             if (Number(e.target.value) < 0) {
               setError("Episode Must be Positive");
