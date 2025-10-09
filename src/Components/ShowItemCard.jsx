@@ -6,6 +6,7 @@ import EditShow from "./EditShow";
 function ShowItemCard({ item }) {
   const [error, setError] = useState("");
   const [isOpenEditModel, setIsOpenEditModel] = useState(false);
+  const [toDelete, setToDelete] = useState(false);
   const {
     updateIsComplete,
     increaseSeason,
@@ -31,6 +32,9 @@ function ShowItemCard({ item }) {
     }, 1500);
   }, [error]);
 
+  const openDelete = () => setToDelete(true);
+  const closeDelete = () => setToDelete(false);
+
   return (
     <section
       className="cardContainer "
@@ -46,120 +50,131 @@ function ShowItemCard({ item }) {
         // <EditingShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
         <EditShow item={item} setIsOpenEditModel={setIsOpenEditModel} />
       )}
-      {!isOpenEditModel && (
-      <div className="cardSplit cardFull" id={`item${item.name}`}>
-        <div className="title">{item.name}</div>
-        <div className="card">
-          <div className="cardHeader">
-            {/* header */}
-            {item.year > 0 ? (
-              <div className="title">{item.year}</div>
-            ) : (
-              <div>-</div>
-            )}
-            <div className="completedIcon">
-              <span
-                style={{
-                  cursor: "pointer",
-                  color: item.isCompleted ? "green" : "red",
-                  marginRight: "10px",
-                }}
-                onClick={() => updateIsComplete(item)}
-              >
-                {item.isCompleted ? "✔" : "✖"}
+      {!isOpenEditModel && toDelete && (
+        <div>
+          <h3>Are you sure you want to delete {item.name}?</h3>
+          <button
+            onClick={() => {
+              closeDelete();
+              deleteAShow(item);
+            }}
+          >
+            Yes
+          </button>
+          <button onClick={closeDelete}>No</button>
+        </div>
+      )}
+      {!isOpenEditModel && !toDelete && (
+        <div className="cardSplit cardFull" id={`item${item.name}`}>
+          <div className="title">{item.name}</div>
+          <div className="card">
+            <div className="cardHeader">
+              {/* header */}
+              {item.year > 0 ? (
+                <div className="title">{item.year}</div>
+              ) : (
+                <div>-</div>
+              )}
+              <div className="completedIcon">
+                <span
+                  style={{
+                    cursor: "pointer",
+                    color: item.isCompleted ? "green" : "red",
+                    marginRight: "10px",
+                  }}
+                  onClick={() => updateIsComplete(item)}
+                >
+                  {item.isCompleted ? "✔" : "✖"}
+                </span>
+              </div>
+            </div>
+            {/* Rating */}
+            {/* 
+        <div>
+        <StarRating rating={item.rating} />
+        </div> */}
+            {/* Inc/Dec Season */}
+            <div className="SeasonContainer">
+              <label>Season: {item.season}</label>
+              <span className="seasonButtons">
+                <input
+                  type="button"
+                  className="bMinus"
+                  value="-"
+                  onClick={() => {
+                    item.season - 1 < 1
+                      ? setError("Season Must be greater than 0")
+                      : decreaseSeason(item);
+                  }}
+                />
+
+                <input
+                  type="button"
+                  value="+"
+                  className="bPlus"
+                  onClick={() => {
+                    increaseSeason(item);
+                  }}
+                />
               </span>
             </div>
-          </div>
-          {/* Rating */}
-          {/* 
-        <div>
-          <StarRating rating={item.rating} />
-        </div> */}
-          {/* Inc/Dec Season */}
-          <div className="SeasonContainer">
-            <label>Season: {item.season}</label>
-            <span className="seasonButtons">
-              <input
-                type="button"
-                className="bMinus"
-                value="-"
+            {/* Inc/Dec Episode */}
+            <div className="EpisodeContainer">
+              <label>Episode: {item.episode}</label>
+              <span className="episodeButtons">
+                <input
+                  type="button"
+                  className="bMinus"
+                  value="-"
+                  onClick={() => {
+                    item.episode - 1 < 1
+                      ? setError("Episode Must be Positive")
+                      : decreaseEpisode(item);
+                  }}
+                />
+                <input
+                  type="button"
+                  value="+"
+                  className="bPlus"
+                  onClick={() => {
+                    increaseEpisode(item);
+                  }}
+                />
+              </span>
+            </div>
+            {/* buttons */}
+            <div className="buttons-container">
+              {/* Re-Watch */}
+              <button
+                className="tooltip-btn"
                 onClick={() => {
-                  item.season - 1 < 1
-                    ? setError("Season Must be greater than 0")
-                    : decreaseSeason(item);
+                  reWatchShow(item);
                 }}
-              />
-
-              <input
-                type="button"
-                value="+"
-                className="bPlus"
+              >
+                ↩️
+                <span className="tooltip-text">Re-Watch</span>
+              </button>
+              {/* Delete */}
+              <button className="tooltip-btn" onClick={openDelete}>
+                🗑️
+                <span className="tooltip-text">Delete</span>
+              </button>
+              {/* Edit */}
+              <button
+                className="tooltip-btn"
+                title="Edit"
                 onClick={() => {
-                  increaseSeason(item);
+                  setIsOpenEditModel(true);
                 }}
-              />
-            </span>
-          </div>
-          {/* Inc/Dec Episode */}
-          <div className="EpisodeContainer">
-            <label>Episode: {item.episode}</label>
-            <span className="episodeButtons">
-              <input
-                type="button"
-                className="bMinus"
-                value="-"
-                onClick={() => {
-                  item.episode - 1 < 1
-                    ? setError("Episode Must be Positive")
-                    : decreaseEpisode(item);
-                }}
-              />
-              <input
-                type="button"
-                value="+"
-                className="bPlus"
-                onClick={() => {
-                  increaseEpisode(item);
-                }}
-              />
-            </span>
-          </div>
-          {/* buttons */}
-          <div className="buttons-container">
-            {/* Re-Watch */}
-            <button
-              className="tooltip-btn"
-              onClick={() => {
-                reWatchShow(item);
-              }}
-            >
-              ↩️
-              <span className="tooltip-text">Re-Watch</span>
-            </button>
-            {/* Delete */}
-            <button
-              className="tooltip-btn"
-              onClick={() => {
-                deleteAShow(item);
-              }}
-            >
-              🗑️
-              <span className="tooltip-text">Delete</span>
-            </button>
-            {/* Edit */}
-            <button
-              className="tooltip-btn"
-              title="Edit"
-              onClick={() => {
-                setIsOpenEditModel(true);
-              }}
-            >
-              ✏️
-              <span className="tooltip-text">Edit</span>
-            </button>
+              >
+                ✏️
+                <span className="tooltip-text">Edit</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>)}
+      )}
+
       {error && <h4>{error}</h4>}
     </section>
   );

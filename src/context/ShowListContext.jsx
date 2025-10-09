@@ -277,7 +277,9 @@ export const ShowListProvider = ({ children }) => {
     } else {
       setNewShowLoading(true);
       await addItem(item);
+      console.log(await getItemByName(item.name));
       if (await getItemByName(item.name)) {
+        
         loadItems();
       } else {
         setNewShowError("Something Went Wrong TRY again later");

@@ -27,13 +27,35 @@ export const getItemByName = async (name) => {
   });
 };
 export const addItem = async (item) => {
-  if (!item.id) {
-    item.id = item._id || Date.now().toString();
+  try {
+    item.id = item.id || item._id || crypto.randomUUID();
+    if (!item.id) {
+      item.id = item._id || Date.now().toString();
+    }
+    const db = await openDB();
+    const transaction = db.transaction(STORE_NAME, "readwrite");
+    const store = transaction.objectStore(STORE_NAME);
+
+    await new Promise((resolve, reject) => {
+      const request = store.put(item);
+      request.onsuccess = () => {
+        console.log("✅ Item saved:", item);
+        resolve();
+      };
+      request.onerror = (e) => {
+        console.error("❌ Failed to save item:", e.target.error);
+        reject(e.target.error);
+      };
+    });
+
+    await new Promise((resolve, reject) => {
+      transaction.oncomplete = resolve;
+      transaction.onerror = reject;
+    });
+  } catch (error) {
+    console.error("⚠️ IndexedDB transaction failed:", error);
   }
-  const db = await openDB();
-  const transaction = db.transaction(STORE_NAME, "readwrite");
-  const store = transaction.objectStore(STORE_NAME);
-  store.add(item);
+
 };
 
 export const deleteItem = async (item) => {
